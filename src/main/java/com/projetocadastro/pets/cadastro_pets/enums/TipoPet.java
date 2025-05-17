@@ -1,4 +1,4 @@
-package com.projetocadastro.pets.cadastro_pets.model;
+package com.projetocadastro.pets.cadastro_pets.enums;
 
 public enum TipoPet {
     CACHORRO,

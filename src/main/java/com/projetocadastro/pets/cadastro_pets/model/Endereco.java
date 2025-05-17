@@ -1,19 +1,27 @@
 package com.projetocadastro.pets.cadastro_pets.model;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Embeddable
+import java.util.UUID;
+
+@Entity
+@Table(name = "enderecos")
 @Getter
 @Setter
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class Endereco {
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+
     @NotBlank
     @Size(max = 100)
     private String rua;
@@ -22,9 +30,6 @@ public class Endereco {
     @Size(max = 10)
     private String numero;
 
-    @Size(max = 50)
-    private String complemento;
-
     @NotBlank
     @Size(max = 50)
     private String cidade;
@@ -32,5 +37,7 @@ public class Endereco {
     @NotBlank
     @Size(max = 2, message = "Use a sigla do estado, ex: SP")
     private String estado;
+
+
 
 }
