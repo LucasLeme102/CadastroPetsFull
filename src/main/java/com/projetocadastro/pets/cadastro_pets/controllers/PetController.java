@@ -53,9 +53,6 @@ public class PetController {
                 CollectionModel.of(petsComLinks,linkTo(methodOn(PetController.class).listarTodos()).withSelfRel()));
 
     }
-
-
-
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<PetResponseDto>> buscarPorId(@PathVariable UUID id){
         Pet pet = petService.buscarPorId(id);
@@ -68,12 +65,6 @@ public class PetController {
 
         return ResponseEntity.ok(resource);
     }
-
-
-
-
-
-
     @PutMapping("/{id}")
     public ResponseEntity<EntityModel<PetResponseDto>> atualizar(@PathVariable UUID id,@RequestBody @Valid PetRequestDto dto){
         PetResponseDto atualizado = petService.alterar(id, dto);
@@ -87,4 +78,11 @@ public class PetController {
         petService.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
+
+
+
+
 }

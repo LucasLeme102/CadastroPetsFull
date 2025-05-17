@@ -20,22 +20,9 @@ public class Endereco {
     @Id
     @GeneratedValue
     private UUID id;
-
-
-    @NotBlank
-    @Size(max = 100)
     private String rua;
-
-    @NotBlank
-    @Size(max = 10)
     private String numero;
-
-    @NotBlank
-    @Size(max = 50)
     private String cidade;
-
-    @NotBlank
-    @Size(max = 2, message = "Use a sigla do estado, ex: SP")
     private String estado;
 
 

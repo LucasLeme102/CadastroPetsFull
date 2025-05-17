@@ -3,6 +3,7 @@ package com.projetocadastro.pets.cadastro_pets.services;
 import com.projetocadastro.pets.cadastro_pets.dtos.TutorRequestDto;
 import com.projetocadastro.pets.cadastro_pets.dtos.TutorResponseDto;
 import com.projetocadastro.pets.cadastro_pets.exceptions.RecursoDuplicadoException;
+import com.projetocadastro.pets.cadastro_pets.exceptions.ResourceNotFoundExceptions;
 import com.projetocadastro.pets.cadastro_pets.model.Tutor;
 import com.projetocadastro.pets.cadastro_pets.repositories.TutorRepository;
 import com.projetocadastro.pets.cadastro_pets.utils.PetMapper;
@@ -25,20 +26,22 @@ public class TutorService {
         if(repository.existsByNomeIgnoreCase(dto.nome())){
             throw new RecursoDuplicadoException("Já exite um tutor com esse nome!");
         }
-        Tutor tutor = new Tutor(dto.nome());
+        Tutor tutor = new Tutor(dto.nome(),dto.telefone(),dto.email());
         repository.save(tutor);
-        //return new TutorResponseDto(tutor.getId(),tutor.getNome());
         return TutorMapper.toDto(tutor);
 
     }
 
     public Tutor buscarTutorPorId(UUID id){
-        Tutor tutor = repository.findById(id).orElseThrow(() -> new RuntimeException("Tutor não encontrado"));
-        return tutor;
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundExceptions("Tutor não encontrado"));
+
     }
 
     public List<TutorResponseDto> listarTodosTutores(){
         List<Tutor> all = repository.findAll();
+        if(all.isEmpty()){
+            throw new ResourceNotFoundExceptions("Sem turores cadastrados");
+        }
         List<TutorResponseDto> todosEmDto = new ArrayList<>();
         for(Tutor x : all ){
             TutorResponseDto dto = TutorMapper.toDto(x);

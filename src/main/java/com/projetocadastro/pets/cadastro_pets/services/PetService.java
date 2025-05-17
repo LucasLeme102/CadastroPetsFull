@@ -2,6 +2,7 @@ package com.projetocadastro.pets.cadastro_pets.services;
 
 import com.projetocadastro.pets.cadastro_pets.dtos.PetRequestDto;
 import com.projetocadastro.pets.cadastro_pets.dtos.PetResponseDto;
+import com.projetocadastro.pets.cadastro_pets.exceptions.RecursoDuplicadoException;
 import com.projetocadastro.pets.cadastro_pets.exceptions.ResourceNotFoundExceptions;
 import com.projetocadastro.pets.cadastro_pets.model.Pet;
 import com.projetocadastro.pets.cadastro_pets.model.Tutor;
@@ -23,7 +24,7 @@ public class PetService {
     private TutorRepository tutorRepository;
 
     public PetResponseDto cadastrar(PetRequestDto petdto){
-        Tutor tutor = tutorRepository.findById(petdto.tutorId()).orElseThrow(() -> new RuntimeException("Tutor não encontrado"));
+        Tutor tutor = tutorRepository.findById(petdto.tutorId()).orElseThrow(() -> new ResourceNotFoundExceptions("Tutor não encontrado"));
         Pet pet = PetMapper.toEntity(petdto,tutor);
         Pet save = petRepository.save(pet);
         return PetMapper.toDto(save);
@@ -31,10 +32,14 @@ public class PetService {
     }
 
     public List<PetResponseDto> listarTodos(){
-        return petRepository.findAll()
+        List<PetResponseDto> list = petRepository.findAll()
                 .stream()
                 .map(PetMapper::toDto)
                 .toList();
+        if(list.isEmpty()){
+            throw new ResourceNotFoundExceptions("Nenhum pet salvo");
+        }
+        return list;
     }
 
     public Pet buscarPorId(UUID id){

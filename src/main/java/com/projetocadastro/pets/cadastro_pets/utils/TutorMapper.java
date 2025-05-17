@@ -19,6 +19,8 @@ public class TutorMapper {
         if(dto == null)return null;
         Tutor tutor = new Tutor();
         tutor.setNome(dto.nome());
+        tutor.setTelefone(dto.telefone());
+        tutor.setEmail(dto.email());
         return tutor;
 
     }
@@ -26,7 +28,9 @@ public class TutorMapper {
         if(tutor == null)return null;
         return new TutorResponseDto(
                 tutor.getId(),
-                tutor.getNome()
+                tutor.getNome(),
+                tutor.getTelefone(),
+                tutor.getEmail()
         );
     }
 

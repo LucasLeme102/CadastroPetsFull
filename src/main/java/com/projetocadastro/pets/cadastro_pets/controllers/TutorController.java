@@ -28,14 +28,11 @@ public class TutorController {
     @Autowired
     private TutorService service;
 
-    @Autowired
-    private TutorMapper mapper;
-
     @PostMapping
     public ResponseEntity<EntityModel<TutorResponseDto>> criarTutor(@RequestBody @Valid TutorRequestDto dto){
         TutorResponseDto tutorResponseDto = service.criarTutor(dto);
 
-        EntityModel resource = EntityModel.of(tutorResponseDto,
+        EntityModel<TutorResponseDto> resource = EntityModel.of(tutorResponseDto,
                 linkTo(methodOn(PetController.class).listarTodos()).withRel("pets") // opcional
         );
 
@@ -47,16 +44,15 @@ public class TutorController {
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<TutorResponseDto>> buscarPorIdDoTutor(@PathVariable UUID id){
         Tutor tutor = service.buscarTutorPorId(id);
-        TutorResponseDto dto = mapper.toDto(tutor);
+        TutorResponseDto dto = TutorMapper.toDto(tutor);
 
         EntityModel<TutorResponseDto> resource = EntityModel.of(dto);
         resource.add(linkTo(methodOn(TutorController.class).buscarPorIdDoTutor(id)).withSelfRel());
 
         for(Pet pet : tutor.getPets()){
-            resource.add(linkTo(methodOn(PetController.class).buscarPorId(pet.getId())).withRel("pet-"+pet.getId()));
+            resource.add(linkTo(methodOn(PetController.class).buscarPorId(pet.getId())).withRel("pet: "+pet.getNome()));
         }
         return ResponseEntity.ok(resource);
-
 
     }
     @GetMapping
@@ -65,7 +61,7 @@ public class TutorController {
 
         List<EntityModel<TutorResponseDto>> tutoresComLinks = tutores.stream().map(tutor -> EntityModel.of(
                 tutor,
-                linkTo(methodOn(PetController.class).listarTodos()).withRel("pets")
+                linkTo(methodOn(TutorController.class).buscarPorIdDoTutor(tutor.id())).withSelfRel()
         )).toList();
         return ResponseEntity.ok(
                 CollectionModel.of(tutoresComLinks,

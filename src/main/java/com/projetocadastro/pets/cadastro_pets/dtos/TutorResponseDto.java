@@ -4,6 +4,8 @@ import java.util.UUID;
 
 public record TutorResponseDto(
         UUID id,
-        String nome
+        String nome,
+        String telefone,
+        String email
 ) {
 }
