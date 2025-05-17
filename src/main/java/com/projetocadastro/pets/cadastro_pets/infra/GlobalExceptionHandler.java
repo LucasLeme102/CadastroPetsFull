@@ -68,6 +68,17 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentExeception(IllegalArgumentException e, HttpServletRequest request){
+            ErrorResponse errorResponse = new ErrorResponse(
+                    LocalDateTime.now(),
+                    HttpStatus.BAD_REQUEST.value(),
+                    "Algum argumento está inválido",
+                    e.getMessage(),
+                    request.getRequestURI()
+            );
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
 
 
 

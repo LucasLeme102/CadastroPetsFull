@@ -2,7 +2,7 @@ package com.projetocadastro.pets.cadastro_pets.services;
 
 import com.projetocadastro.pets.cadastro_pets.dtos.PetRequestDto;
 import com.projetocadastro.pets.cadastro_pets.dtos.PetResponseDto;
-import com.projetocadastro.pets.cadastro_pets.exceptions.RecursoDuplicadoException;
+import com.projetocadastro.pets.cadastro_pets.enums.TipoPet;
 import com.projetocadastro.pets.cadastro_pets.exceptions.ResourceNotFoundExceptions;
 import com.projetocadastro.pets.cadastro_pets.model.Pet;
 import com.projetocadastro.pets.cadastro_pets.model.Tutor;
@@ -12,6 +12,7 @@ import com.projetocadastro.pets.cadastro_pets.utils.PetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -76,6 +77,85 @@ public class PetService {
         petRepository.deleteById(id);
     }
 
+
+    public List<PetResponseDto> buscarPorCidade(String cidade){
+        List<Pet> byEnderecoCidade = petRepository.findByEndereco_Cidade_ContainingIgnoreCase(cidade);
+        if(byEnderecoCidade.isEmpty()){
+            throw new ResourceNotFoundExceptions("Sem pets nessa cidade");
+        }
+        List<PetResponseDto> responseDtos = new ArrayList<>();
+
+        for(Pet x : byEnderecoCidade){
+
+            responseDtos.add(PetMapper.toDto(x));
+        }
+
+        return responseDtos;
+    }
+    public List<PetResponseDto> buscarPorRaca(String raca){
+        List<Pet> byRaca = petRepository.findByRacaContainingIgnoreCase(raca);
+        if(byRaca.isEmpty()){
+            throw new ResourceNotFoundExceptions("Sem pets desta raça");
+        }
+        List<PetResponseDto> responseDtos = new ArrayList<>();
+
+        for(Pet x : byRaca){
+
+            responseDtos.add(PetMapper.toDto(x));
+        }
+
+        return responseDtos;
+    }
+    public List<PetResponseDto> buscarPorPeso(Double peso){
+        List<Pet> byPeso = petRepository.findByPeso(peso);
+        if(byPeso.isEmpty()){
+            throw new ResourceNotFoundExceptions("Sem pets desse peso");
+        }
+        List<PetResponseDto> responseDtos = new ArrayList<>();
+
+        for(Pet x : byPeso){
+
+            responseDtos.add(PetMapper.toDto(x));
+        }
+
+        return responseDtos;
+    }
+    public List<PetResponseDto> buscarPorIdade(Integer idade){
+        List<Pet> byIdade = petRepository.findByIdade(idade);
+        if(byIdade.isEmpty()){
+            throw new ResourceNotFoundExceptions("Sem pets desta idade");
+        }
+        List<PetResponseDto> responseDtos = new ArrayList<>();
+
+        for(Pet x : byIdade){
+
+            responseDtos.add(PetMapper.toDto(x));
+        }
+
+        return responseDtos;
+    }
+    public List<PetResponseDto> buscarNomeOuSobrenome(String nomeOuSobrenome){
+        List<Pet> byNomeContainingIgnoreCase = petRepository.findByNomeContainingIgnoreCase(nomeOuSobrenome);
+        if(byNomeContainingIgnoreCase.isEmpty()){
+            throw new ResourceNotFoundExceptions("Sem pets com esse nome/sobrenome");
+        }
+        List<PetResponseDto> responseDtos = new ArrayList<>();
+
+        for(Pet x : byNomeContainingIgnoreCase){
+
+            responseDtos.add(PetMapper.toDto(x));
+        }
+
+        return responseDtos;
+    }
+    public List<PetResponseDto> buscarPorTipo(
+    String tipoPetString) {
+            TipoPet tipoPet = TipoPet.valueOf(tipoPetString.toUpperCase());
+            List<Pet> pets = petRepository.findBytipo(tipoPet);
+            return pets.stream().map(PetMapper::toDto).toList();
+
+
+    }
 
 
 
