@@ -1,0 +1,2 @@
+ALTER TABLE tutores DROP CONSTRAINT IF EXISTS fk_endereco;
+ALTER TABLE tutores DROP COLUMN IF EXISTS endereco_id;

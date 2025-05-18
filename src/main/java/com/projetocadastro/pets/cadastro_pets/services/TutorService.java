@@ -6,7 +6,6 @@ import com.projetocadastro.pets.cadastro_pets.exceptions.RecursoDuplicadoExcepti
 import com.projetocadastro.pets.cadastro_pets.exceptions.ResourceNotFoundExceptions;
 import com.projetocadastro.pets.cadastro_pets.model.Tutor;
 import com.projetocadastro.pets.cadastro_pets.repositories.TutorRepository;
-import com.projetocadastro.pets.cadastro_pets.utils.PetMapper;
 import com.projetocadastro.pets.cadastro_pets.utils.TutorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +20,12 @@ public class TutorService {
     @Autowired
     private TutorRepository repository;
 
-
     public TutorResponseDto criarTutor(TutorRequestDto dto){
         if(repository.existsByNomeIgnoreCase(dto.nome())){
             throw new RecursoDuplicadoException("Já exite um tutor com esse nome!");
         }
-        Tutor tutor = new Tutor(dto.nome(),dto.telefone(),dto.email());
+        Tutor tutor = TutorMapper.toEntity(dto);
+
         repository.save(tutor);
         return TutorMapper.toDto(tutor);
 

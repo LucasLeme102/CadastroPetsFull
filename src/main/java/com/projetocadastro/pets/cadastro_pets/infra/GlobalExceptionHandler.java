@@ -54,11 +54,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request){
         Throwable mostSpecificCause = e.getMostSpecificCause();
         String mensagem = "Erro de leitura de requisição";
-        if(mostSpecificCause != null && mostSpecificCause.getMessage().contains("TipoPet")){
+        if(mostSpecificCause.getMessage().contains("TipoPet")){
             mensagem = "Tipo de pet inválido. Os valores aceitos são : " + Arrays.toString(TipoPet.values());
         }
 
-        ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(),
+        ErrorResponse errorResponse = new ErrorResponse
+                (LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 "Erro de espécie de animal",
                 mensagem,
@@ -69,7 +70,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgumentExeception(IllegalArgumentException e, HttpServletRequest request){
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e, HttpServletRequest request){
             ErrorResponse errorResponse = new ErrorResponse(
                     LocalDateTime.now(),
                     HttpStatus.BAD_REQUEST.value(),

@@ -2,6 +2,7 @@ package com.projetocadastro.pets.cadastro_pets.controllers;
 
 import com.projetocadastro.pets.cadastro_pets.dtos.TutorRequestDto;
 import com.projetocadastro.pets.cadastro_pets.dtos.TutorResponseDto;
+import com.projetocadastro.pets.cadastro_pets.exceptions.ResourceNotFoundExceptions;
 import com.projetocadastro.pets.cadastro_pets.model.Pet;
 import com.projetocadastro.pets.cadastro_pets.model.Tutor;
 import com.projetocadastro.pets.cadastro_pets.services.TutorService;
@@ -44,10 +45,14 @@ public class TutorController {
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<TutorResponseDto>> buscarPorIdDoTutor(@PathVariable UUID id){
         Tutor tutor = service.buscarTutorPorId(id);
+        if(tutor == null){
+            throw new ResourceNotFoundExceptions("Tutor não encontrado");
+        }
+
         TutorResponseDto dto = TutorMapper.toDto(tutor);
 
         EntityModel<TutorResponseDto> resource = EntityModel.of(dto);
-        resource.add(linkTo(methodOn(TutorController.class).buscarPorIdDoTutor(id)).withSelfRel());
+        resource.add(linkTo(methodOn(TutorController.class).buscarTutores()).withSelfRel());
 
         for(Pet pet : tutor.getPets()){
             resource.add(linkTo(methodOn(PetController.class).buscarPorId(pet.getId())).withRel("pet: "+pet.getNome()));

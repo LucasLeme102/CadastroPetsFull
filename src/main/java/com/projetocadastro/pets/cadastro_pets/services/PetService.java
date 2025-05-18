@@ -24,11 +24,11 @@ public class PetService {
     @Autowired
     private TutorRepository tutorRepository;
 
-    public PetResponseDto cadastrar(PetRequestDto petdto){
-        Tutor tutor = tutorRepository.findById(petdto.tutorId()).orElseThrow(() -> new ResourceNotFoundExceptions("Tutor não encontrado"));
-        Pet pet = PetMapper.toEntity(petdto,tutor);
-        Pet save = petRepository.save(pet);
-        return PetMapper.toDto(save);
+    public PetResponseDto cadastrar(PetRequestDto petDto){
+        Tutor tutor = tutorRepository.findById(petDto.tutorId()).orElseThrow(() -> new ResourceNotFoundExceptions("Tutor não encontrado"));
+        Pet pet = PetMapper.toEntity(petDto,tutor);
+        Pet saved = petRepository.save(pet);
+        return PetMapper.toDto(saved);
 
     }
 
@@ -156,7 +156,4 @@ public class PetService {
 
 
     }
-
-
-
 }
