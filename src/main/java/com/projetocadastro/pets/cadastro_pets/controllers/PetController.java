@@ -3,7 +3,6 @@ package com.projetocadastro.pets.cadastro_pets.controllers;
 
 import com.projetocadastro.pets.cadastro_pets.dtos.PetRequestDto;
 import com.projetocadastro.pets.cadastro_pets.dtos.PetResponseDto;
-import com.projetocadastro.pets.cadastro_pets.enums.TipoPet;
 import com.projetocadastro.pets.cadastro_pets.model.Pet;
 import com.projetocadastro.pets.cadastro_pets.services.PetService;
 import com.projetocadastro.pets.cadastro_pets.utils.PetMapper;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 

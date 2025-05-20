@@ -1,6 +1,6 @@
 package com.projetocadastro.pets.cadastro_pets.dtos;
 
-import com.projetocadastro.pets.cadastro_pets.enums.TipoPet;
+import com.projetocadastro.pets.cadastro_pets.model.enums.TipoPet;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 

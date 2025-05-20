@@ -9,6 +9,7 @@ import com.projetocadastro.pets.cadastro_pets.repositories.TutorRepository;
 import com.projetocadastro.pets.cadastro_pets.utils.TutorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class TutorService {
 
     @Autowired
     private TutorRepository repository;
-
+    @Transactional
     public TutorResponseDto criarTutor(TutorRequestDto dto){
         if(repository.existsByNomeIgnoreCase(dto.nome())){
             throw new RecursoDuplicadoException("Já exite um tutor com esse nome!");

@@ -2,7 +2,7 @@ package com.projetocadastro.pets.cadastro_pets.services;
 
 import com.projetocadastro.pets.cadastro_pets.dtos.PetRequestDto;
 import com.projetocadastro.pets.cadastro_pets.dtos.PetResponseDto;
-import com.projetocadastro.pets.cadastro_pets.enums.TipoPet;
+import com.projetocadastro.pets.cadastro_pets.model.enums.TipoPet;
 import com.projetocadastro.pets.cadastro_pets.exceptions.ResourceNotFoundExceptions;
 import com.projetocadastro.pets.cadastro_pets.model.Pet;
 import com.projetocadastro.pets.cadastro_pets.model.Tutor;
@@ -11,6 +11,7 @@ import com.projetocadastro.pets.cadastro_pets.repositories.TutorRepository;
 import com.projetocadastro.pets.cadastro_pets.utils.PetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class PetService {
 
     @Autowired
     private TutorRepository tutorRepository;
-
+    @Transactional
     public PetResponseDto cadastrar(PetRequestDto petDto){
         Tutor tutor = tutorRepository.findById(petDto.tutorId()).orElseThrow(() -> new ResourceNotFoundExceptions("Tutor não encontrado"));
         Pet pet = PetMapper.toEntity(petDto,tutor);
@@ -48,7 +49,7 @@ public class PetService {
                .orElseThrow(() -> new ResourceNotFoundExceptions("Pet não encontrado"));
        return pet;
     }
-
+    @Transactional
     public PetResponseDto alterar(UUID id, PetRequestDto dto){
         Pet petExistente = petRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundExceptions("Pet não encontrado"));
@@ -69,7 +70,7 @@ public class PetService {
         Pet save = petRepository.save(petExistente);
         return PetMapper.toDto(save);
     }
-
+    @Transactional
     public void deletar(UUID id){
         if(!petRepository.existsById(id)){
             throw new ResourceNotFoundExceptions("pet com id : "+ id + " não existe");

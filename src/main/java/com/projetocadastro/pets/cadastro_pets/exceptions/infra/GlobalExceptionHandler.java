@@ -1,7 +1,7 @@
-package com.projetocadastro.pets.cadastro_pets.infra;
+package com.projetocadastro.pets.cadastro_pets.exceptions.infra;
 
 import com.projetocadastro.pets.cadastro_pets.dtos.ErrorResponse;
-import com.projetocadastro.pets.cadastro_pets.enums.TipoPet;
+import com.projetocadastro.pets.cadastro_pets.model.enums.TipoPet;
 import com.projetocadastro.pets.cadastro_pets.exceptions.RecursoDuplicadoException;
 import com.projetocadastro.pets.cadastro_pets.exceptions.ResourceNotFoundExceptions;
 import jakarta.servlet.http.HttpServletRequest;

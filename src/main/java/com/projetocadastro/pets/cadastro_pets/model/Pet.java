@@ -1,11 +1,9 @@
 package com.projetocadastro.pets.cadastro_pets.model;
 
 
-import com.projetocadastro.pets.cadastro_pets.enums.TipoPet;
+import com.projetocadastro.pets.cadastro_pets.model.enums.TipoPet;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
-import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
