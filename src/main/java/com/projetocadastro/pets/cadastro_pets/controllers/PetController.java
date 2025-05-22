@@ -6,8 +6,14 @@ import com.projetocadastro.pets.cadastro_pets.dtos.PetResponseDto;
 import com.projetocadastro.pets.cadastro_pets.model.Pet;
 import com.projetocadastro.pets.cadastro_pets.services.PetService;
 import com.projetocadastro.pets.cadastro_pets.utils.PetMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -24,6 +30,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/api/pets")
 @RequiredArgsConstructor
+@Tag(name= "Pets", description = "Endpoints relacionado a pets")
 public class PetController {
 
     @Autowired
@@ -31,7 +38,15 @@ public class PetController {
 
     @Autowired
     private PetMapper petMapper;
-
+    @Operation(
+            summary = "Cadastrar novo Pet",
+            security = @SecurityRequirement(name
+            ="bearer-key"),
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Pet cadastrado com sucesso"),
+                    @ApiResponse(responseCode = "403", description = "Acesso negado/não autorizado")
+            }
+    )
     @PostMapping
     public ResponseEntity<EntityModel<PetResponseDto>> cadastrar(@RequestBody @Valid PetRequestDto dto){
         PetResponseDto response = petService.cadastrar(dto);
@@ -41,6 +56,9 @@ public class PetController {
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(resource);
     }
+    @Operation(
+            summary = "Listar todos os pets", security = @SecurityRequirement(name = "bearer-key")
+    )
     @GetMapping
     public ResponseEntity<CollectionModel<EntityModel<PetResponseDto>>>  listarTodos(){
         List<PetResponseDto> pets = petService.listarTodos();

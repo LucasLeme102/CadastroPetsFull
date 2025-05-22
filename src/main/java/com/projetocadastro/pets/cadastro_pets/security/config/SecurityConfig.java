@@ -28,6 +28,11 @@ public class SecurityConfig {
         return security.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 
@@ -38,11 +43,6 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.POST, "/api/tutores").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/tutores").hasRole("ADMIN")
-                        .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
