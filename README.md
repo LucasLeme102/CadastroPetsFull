@@ -38,7 +38,7 @@ Uma API RESTful robusta e segura, desenvolvida com **Spring Boot**, dedicada ao 
 * ✅ **Gerenciamento de Pets:** Operações completas de Criação, Leitura, Atualização e Exclusão (CRUD).
 * ✅ **Gerenciamento de Tutores:** Cadastro e associação de tutores com seus pets.
 * ✅ **Gerenciamento de Endereços:** Cadastro de endereços e associação com cada pet.
-* ✅ **Autenticação Segura:** Sistema de login/logout baseado em JWT para proteger os endpoints da API.
+* ✅ **Autenticação Segura:** Sistema de login /logout baseado em JWT para proteger os endpoints da API.
 * ✅ **Controle de Acesso por Roles:** Definição de permissões (`ROLE_TUTOR`, `ROLE_ADMIN`) para diferentes níveis de acesso.
 * ✅ **Documentação Interativa:** Geração automática e visualização da API via Swagger (SpringDoc OpenAPI).
 * ✅ **Tratamento Global de Exceções:** Respostas de erro padronizadas e amigáveis para o consumidor da API.
